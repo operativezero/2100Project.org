@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project 2100</title>
+<meta name="description" content="Transmission logs from the field.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --signal: #62d391;
+    --signal-dim: #2a6647;
+    --bg: #0a0a0a;
+    --text: #c8c8c8;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid #1a1a1a;
+    background: rgba(10,10,10,0.95);
+  }
+
+  .site-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--signal);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--signal); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 18vw, 220px);
+    color: var(--signal);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    text-align: center;
+    animation: fadeUp 1.2s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .countdown-section {
+    margin-top: 4rem;
+    text-align: center;
+    animation: fadeUp 1.2s ease 0.3s forwards;
+    opacity: 0;
+  }
+
+  .countdown-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .countdown-units {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .countdown-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(32px, 6vw, 64px);
+    color: var(--signal);
+    line-height: 1;
+  }
+
+  .countdown-unit-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+  }
+
+  .divider {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(24px, 4vw, 48px);
+    color: var(--signal-dim);
+    padding-top: 0.1em;
+  }
+
+  .transmission-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    border-top: 1px solid #1a1a1a;
+    animation: fadeUp 1.2s ease 0.6s forwards;
+    opacity: 0;
+  }
+
+  .transmission-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+
+  .transmission-text {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .transmission-text p {
+    margin-bottom: 1.5rem;
+  }
+
+  .transmission-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .mission-line {
+    color: var(--signal);
+    font-weight: 400;
+  }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--signal-dim);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-contact a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .footer-contact a:hover { color: var(--signal); }
+
+  .confirm-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--signal);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--signal-dim);
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s;
+  }
+
+  .confirm-link:hover {
+    background: var(--signal);
+    color: var(--bg);
+  }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="site-name" href="/">2100PROJECT.ORG</a>
+  <nav>
+    <a href="#transmission">Transmission Log</a>
+    <a href="#awaken">Awaken</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Project 2100</h1>
+
+  <div class="countdown-section">
+    <div class="countdown-label">Time remaining to change the future</div>
+    <div class="countdown-units">
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-days">0000</span>
+        <span class="countdown-unit-label">Days</span>
+      </div>
+      <div class="divider">:</div>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-hours">00</span>
+        <span class="countdown-unit-label">Hours</span>
+      </div>
+      <div class="divider">:</div>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-mins">00</span>
+        <span class="countdown-unit-label">Minutes</span>
+      </div>
+      <div class="divider">:</div>
+      <div class="countdown-unit">
+        <span class="countdown-number" id="cd-secs">00</span>
+        <span class="countdown-unit-label">Seconds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="transmission-section" id="transmission">
+  <div class="transmission-label">Transmission Log — 001</div>
+  <div class="transmission-text">
+    <p>I wasn't sleeping, but I woke up.<br>
+    Not from a dream. Into one.<br>
+    The mission had already begun.</p>
+
+    <p>I saw 2100.</p>
+
+    <p>I was standing in a kitchen, holding a box of Frosted Flakes, and I started crying. Sugar-coated corn. Bright blue cardboard. A tiger surfing on a wave of milk. "Mission Tiger: over 1 million kids helped." What a joke.</p>
+
+    <p>In 2100, millions starve in months. The lucky ones receive standardized blue packs of processed corn, distributed by what remains of the United Nations. Livestock feed, reformulated for human survival. No tiger. No milk wave. Those million kids inherited a world no cereal box ever promised them.</p>
+
+    <p>There are no tigers in 2100. Not on boxes. Not in the wild. No birds to hear. No squirrels to see. Sheep only to dream of.</p>
+
+    <p class="mission-line">I was sent back to change that future.</p>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Operative Zero</span>
+  <div class="footer-contact">
+    <a href="https://x.com/project2100org">@project2100org</a>
+  </div>
+  <a class="confirm-link" href="/awaken">Confirm Awakening →</a>
+</footer>
+
+<script>
+  function updateCountdown() {
+    var target = new Date('2100-01-01T00:00:00Z').getTime();
+    var now = new Date().getTime();
+    var diff = target - now;
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var secs = Math.floor((diff % (1000 * 60)) / 1000);
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
