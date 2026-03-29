@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Project 2100</title>
+<meta name="description" content="This is Operative Zero. I've seen 2100. Have you?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --signal: #62d391;
+    --signal-dim: #2a6647;
+    --bg: #0a0a0a;
+    --text: #c8c8c8;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid #1a1a1a;
+    background: rgba(10,10,10,0.95);
+  }
+
+  .site-name {
+    font-size: 13px;
+    color: var(--signal);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  nav a {
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    margin-left: 2rem;
+  }
+
+  nav a:hover { color: var(--signal); }
+
+  .hero {
+    padding: 10rem 2rem 6rem;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .operative-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-line {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 8vw, 96px);
+    color: var(--signal);
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero-question {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 8vw, 96px);
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+    opacity: 0;
+  }
+
+  .body-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+    opacity: 0;
+  }
+
+  .body-text {
+    font-size: 16px;
+    line-height: 2;
+    color: var(--text);
+    font-weight: 300;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .body-text p {
+    margin-bottom: 2rem;
+  }
+
+  .body-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .body-text em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .cta-section {
+    border-top: 1px solid #1a1a1a;
+    padding: 6rem 2rem;
+    text-align: center;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+    opacity: 0;
+  }
+
+  .cta-question {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 6vw, 64px);
+    color: var(--signal);
+    letter-spacing: 0.05em;
+    margin-bottom: 3rem;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border: 1px solid var(--signal-dim);
+    color: var(--signal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: var(--signal);
+    color: var(--bg);
+    border-color: var(--signal);
+  }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .footer-name {
+    font-size: 12px;
+    color: var(--signal-dim);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-contact a {
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .footer-contact a:hover { color: var(--signal); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="site-name" href="/">2100PROJECT.ORG</a>
+  <nav>
+    <a href="/#transmission">Transmission Log</a>
+    <a href="/about.html">About</a>
+    <a href="/awaken.html">Awaken</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="operative-label">This is Operative Zero</div>
+  <div class="hero-line">I've seen 2100.</div>
+  <div class="hero-question">Have you?</div>
+</section>
+
+<section class="body-section">
+  <div class="body-text">
+    <p>In the year 2100 they found a way to send us back. Not in the way you'd think — not whole people or objects, but <em>memories, feelings, sensations.</em> There was no way to guarantee a target, so they scattered as many signals as they could, hoping they'd find kind, compassionate, conscientious heads to inhabit.</p>
+
+    <p>It started for me as a feeling something was off. That there must be a greater meaning. That I was born in the wrong generation — a longing for somewhere I'd never been. That wasn't nostalgia. That was a signal. <em>A signal off by 180 degrees, but a signal nonetheless.</em></p>
+
+    <p>I've seen what 2100 is like. To describe it is beyond my vocabulary. But in this project, I will try.</p>
+
+    <p>The mission is not to change everything. The timeline resists that. The mission is to find the people who are already almost awake — <em>and help them wake up into the dream.</em></p>
+
+    <p>If you're reading this, there's a reasonable chance you're one of them.</p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-question">So — are you ready to do something about it?</div>
+  <a class="cta-btn" href="/awaken.html">Confirm Awakening →</a>
+</section>
+
+<footer>
+  <span class="footer-name">Operative Zero</span>
+  <div class="footer-contact">
+    <a href="https://x.com/project2100org">@project2100org</a>
+  </div>
+</footer>
+
+</body>
+</html>
