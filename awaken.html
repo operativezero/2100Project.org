@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirm Awakening — Project 2100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --signal: #62d391;
+    --signal-dim: #2a6647;
+    --bg: #0a0a0a;
+    --text: #c8c8c8;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .site-name {
+    font-size: 13px;
+    color: var(--signal);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  .back-link {
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--signal); }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+  }
+
+  /* FORM STATE */
+  #form-state { width: 100%; max-width: 520px; animation: fadeUp 0.8s ease forwards; }
+
+  .transmission-header {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 80px);
+    color: var(--signal);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .form-subtitle {
+    font-size: 12px;
+    color: var(--signal-dim);
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .field {
+    margin-bottom: 1.5rem;
+  }
+
+  .field label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .field input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--signal-dim);
+    padding: 0.75rem 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    color: var(--signal);
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field input::placeholder { color: #1e3d2a; }
+  .field input:focus { border-bottom-color: var(--signal); }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--signal-dim);
+    color: var(--signal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .submit-btn:hover {
+    background: var(--signal);
+    color: var(--bg);
+    border-color: var(--signal);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .disclaimer {
+    margin-top: 2rem;
+    font-size: 10px;
+    color: #1e3d2a;
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  .error-msg {
+    margin-top: 1rem;
+    font-size: 11px;
+    color: #e05a5a;
+    text-align: center;
+    letter-spacing: 0.1em;
+    display: none;
+  }
+
+  /* LOADING STATE */
+  #loading-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .loading-text {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+  }
+
+  .signal-pulse {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--signal-dim);
+    border-radius: 50%;
+    position: relative;
+    animation: pulse 1.5s ease infinite;
+  }
+
+  .signal-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--signal);
+    border-radius: 50%;
+    animation: pulse 1.5s ease infinite 0.3s;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* CONFIRMATION STATE */
+  #confirm-state {
+    display: none;
+    width: 100%;
+    max-width: 580px;
+    text-align: center;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .confirm-header {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    margin-bottom: 1rem;
+  }
+
+  .confirm-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--signal-dim);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .operative-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 20vw, 160px);
+    color: var(--signal);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .operative-designation {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--signal-dim);
+    margin-bottom: 3rem;
+  }
+
+  .divider-line {
+    width: 100%;
+    height: 1px;
+    background: #1a1a1a;
+    margin: 2rem 0;
+  }
+
+  .transmission-received {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 2;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+  }
+
+  .transmission-received em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .activation-date {
+    font-size: 10px;
+    color: var(--signal-dim);
+    letter-spacing: 0.2em;
+    margin-bottom: 3rem;
+  }
+
+  .share-prompt {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--signal-dim);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .share-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--signal-dim);
+    color: var(--signal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .share-btn:hover {
+    background: var(--signal);
+    color: var(--bg);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  footer {
+    padding: 2rem;
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    font-size: 11px;
+    color: var(--signal-dim);
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="site-name" href="/">2100PROJECT.ORG</a>
+  <a class="back-link" href="/">← Return</a>
+</header>
+
+<main>
+
+  <!-- FORM STATE -->
+  <div id="form-state">
+    <div class="transmission-header">Incoming transmission — confirm receipt</div>
+    <h1 class="form-title">Confirm Awakening</h1>
+    <p class="form-subtitle">
+      You were already active.<br>
+      This only confirms it.
+    </p>
+
+    <div class="field">
+      <label for="alias">Operative Alias</label>
+      <input type="text" id="alias" placeholder="How will you be known" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label for="email">Transmission Address</label>
+      <input type="email" id="email" placeholder="Your email" autocomplete="off" />
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="confirmAwakening()">
+      Confirm Awakening →
+    </button>
+
+    <div class="error-msg" id="error-msg">Transmission failed. Please try again.</div>
+
+    <p class="disclaimer">
+      Your transmission address is stored securely and never shared.<br>
+      You are joining a network, not a mailing list.
+    </p>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div id="loading-state" style="display:none; flex-direction:column; align-items:center; gap:2rem;">
+    <div class="signal-pulse"></div>
+    <div class="loading-text">Receiving transmission...</div>
+  </div>
+
+  <!-- CONFIRMATION STATE -->
+  <div id="confirm-state">
+    <div class="confirm-header">Transmission received — awakening confirmed</div>
+    <div class="confirm-label">You are Operative</div>
+    <div class="operative-number" id="display-number">000</div>
+    <div class="operative-designation" id="display-alias">—</div>
+
+    <div class="divider-line"></div>
+
+    <div class="transmission-received">
+      The signal found you because something in you<br>
+      was already <em>reaching toward 2100.</em><br><br>
+      You are not alone in this.<br>
+      Others are waking up.<br><br>
+      <em>Reduce harm where you can.<br>
+      Notice what others walk past.<br>
+      The mission has already begun.</em>
+    </div>
+
+    <div class="activation-date" id="display-date">Activated —</div>
+
+    <div class="divider-line"></div>
+
+    <p class="share-prompt">Signal the network</p>
+    <button class="share-btn" id="share-btn" onclick="shareAwakening()">
+      Share your activation →
+    </button>
+  </div>
+
+</main>
+
+<footer>
+  Operative Zero · Project 2100 · 2100project.org
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://eopdyycbrzeqbjhefqlo.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_nAkRH2BJolsvXIbrJfeycw_BZbShUOW';
+
+  async function confirmAwakening() {
+    const alias = document.getElementById('alias').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const errorMsg = document.getElementById('error-msg');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (!alias || !email) {
+      errorMsg.textContent = 'Both fields are required to complete the transmission.';
+      errorMsg.style.display = 'block';
+      return;
+    }
+
+    if (!email.includes('@')) {
+      errorMsg.textContent = 'A valid transmission address is required.';
+      errorMsg.style.display = 'block';
+      return;
+    }
+
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+
+    // Show loading
+    document.getElementById('form-state').style.display = 'none';
+    const loadingEl = document.getElementById('loading-state');
+    loadingEl.style.display = 'flex';
+
+    try {
+      // Get current count to assign next operative number
+      const countRes = await fetch(`${SUPABASE_URL}/rest/v1/Operatives?select=operative_number&order=operative_number.desc&limit=1`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+      });
+
+      const countData = await countRes.json();
+      const nextNumber = countData.length > 0 ? (countData[0].operative_number + 1) : 1;
+
+      // Insert new operative
+      const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/Operatives`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({
+          operative_number: nextNumber,
+          alias: alias,
+          email: email
+        })
+      });
+
+      if (!insertRes.ok) {
+        throw new Error('Insert failed');
+      }
+
+      // Show confirmation
+      loadingEl.style.display = 'none';
+      const confirmEl = document.getElementById('confirm-state');
+      confirmEl.style.display = 'block';
+
+      document.getElementById('display-number').textContent = String(nextNumber).padStart(3, '0');
+      document.getElementById('display-alias').textContent = alias;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('display-date').textContent = `Activated ${dateStr}`;
+
+    } catch (err) {
+      loadingEl.style.display = 'none';
+      document.getElementById('form-state').style.display = 'block';
+      submitBtn.disabled = false;
+      errorMsg.textContent = 'Transmission failed. Signal interrupted. Please try again.';
+      errorMsg.style.display = 'block';
+    }
+  }
+
+  function shareAwakening() {
+    const number = document.getElementById('display-number').textContent;
+    const text = `I am Operative ${number}.\n\nThe signal found me.\n\n2100project.org`;
+    if (navigator.share) {
+      navigator.share({ text: text, url: 'https://2100project.org' });
+    } else {
+      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+      window.open(tweetUrl, '_blank');
+    }
+  }
+</script>
+
+</body>
+</html>
