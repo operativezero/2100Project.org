@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is This — Project 2100</title>
+<meta name="description" content="Project 2100 is a mythology we are choosing to inhabit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --signal: #62d391;
+    --signal-dim: #2a6647;
+    --bg: #0a0a0a;
+    --text: #e8e8e8;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid #1a1a1a;
+    background: rgba(10,10,10,0.95);
+  }
+
+  .site-name {
+    font-size: 13px;
+    color: var(--signal);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  nav a {
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    margin-left: 2rem;
+  }
+
+  nav a:hover { color: var(--signal); }
+
+  .hero {
+    padding: 10rem 2rem 6rem;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    color: var(--signal);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .body-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+    opacity: 0;
+  }
+
+  .body-text {
+    font-size: 19px;
+    line-height: 2;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .body-text p {
+    margin-bottom: 2rem;
+  }
+
+  .body-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .body-text em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .mental-health {
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 3rem 2rem;
+    max-width: 680px;
+    margin: 0 auto;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+    opacity: 0;
+  }
+
+  .mental-health-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--signal-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .mental-health-text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #888;
+  }
+
+  .cta-section {
+    padding: 6rem 2rem;
+    text-align: center;
+    animation: fadeUp 0.8s ease 0.7s forwards;
+    opacity: 0;
+  }
+
+  .cta-text {
+    font-size: 13px;
+    color: var(--signal-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border: 1px solid var(--signal-dim);
+    color: var(--signal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: var(--signal);
+    color: var(--bg);
+  }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .footer-name {
+    font-size: 12px;
+    color: var(--signal-dim);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-contact a {
+    font-size: 11px;
+    color: var(--signal-dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .footer-contact a:hover { color: var(--signal); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="site-name" href="/">2100PROJECT.ORG</a>
+  <nav>
+    <a href="/#transmission">Transmission Log</a>
+    <a href="/about.html">About</a>
+    <a href="/what-is-this.html">What Is This</a>
+    <a href="/awaken.html">Awaken</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-label">A note on the nature of this project</div>
+  <h1 class="hero-title">What Is This, Really?</h1>
+</section>
+
+<section class="body-section">
+  <div class="body-text">
+    <p>Project 2100 is a mythology we are choosing to inhabit.</p>
+
+    <p>The time travel is not a literal claim. It is a useful tool — a story to inhabit, a myth to carry something important. An attempt to <em>invert the story of individual climate responsibility</em> into participation in a movement greater than ourselves.</p>
+
+    <p>The grief about our future is real. The feeling of being born in the wrong time is real. The decisions being made right now will echo forward in ways not imagined by most.</p>
+
+    <p>Time travel is the shape that the truth takes here.</p>
+
+    <p>You are not being deceived. You are being invited. <em>There is a difference.</em></p>
+  </div>
+</section>
+
+<section class="mental-health">
+  <div class="mental-health-label">A note on mental health</div>
+  <div class="mental-health-text">
+    If you are experiencing a mental health crisis or struggling to distinguish this mythology from literal reality, please reach out to someone you trust. This project is not intended for people in that position and we say that with genuine care.
+  </div>
+</section>
+
+<section class="cta-section">
+  <p class="cta-text">For everyone else — the door is open.</p>
+  <a class="cta-btn" href="/awaken.html">Confirm Awakening →</a>
+</section>
+
+<footer>
+  <span class="footer-name">Operative Zero</span>
+  <div class="footer-contact">
+    <a href="https://x.com/project2100org">@project2100org</a>
+  </div>
+</footer>
+
+</body>
+</html>
