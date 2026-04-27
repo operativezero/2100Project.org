@@ -1,21 +1,21 @@
-module.exports = async function handler(req, res) {
+export const config = { runtime: 'edge' };
+
+export default async function handler(req) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
   }
 
-  const { email, alias, operativeNumber } = req.body;
+  const { email, alias, operativeNumber } = await req.json();
 
   if (!email || !operativeNumber) {
-    return res.status(400).json({ error: 'Missing required fields' });
+    return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
   }
 
   const paddedNumber = String(operativeNumber).padStart(4, '0');
 
   const emailHtml = `
     <div style="background:#0a0a0a; color:#c8c8c8; font-family:'Courier New', monospace; padding:48px 40px; max-width:560px; margin:0 auto;">
-      <p style="font-size:10px; letter-spacing:0.3em; color:#2a6647; text-transform:uppercase; margin-bottom:40px;">
-        Transmission for Operative ${paddedNumber}
-      </p>
+      <p style="font-size:10px; letter-spacing:0.3em; color:#2a6647; text-transform:uppercase; margin-bottom:40px;">Transmission for Operative ${paddedNumber}</p>
       <p style="font-size:16px; line-height:2; margin-bottom:20px;">We knew you would sign up.</p>
       <p style="font-size:16px; line-height:2; margin-bottom:20px;">I'm writing from a place I hope you never have to see.</p>
       <p style="font-size:16px; line-height:2; margin-bottom:20px;">But your name is here now, among those we carried forward. The ones who showed up before it was obvious.</p>
@@ -29,31 +29,24 @@ module.exports = async function handler(req, res) {
     </div>
   `;
 
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'Operative Zero <transmissions@2100project.org>',
-        to: email,
-        subject: `Transmission for Operative ${paddedNumber}`,
-        html: emailHtml
-      })
-    });
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: 'Operative Zero <transmissions@2100project.org>',
+      to: email,
+      subject: `Transmission for Operative ${paddedNumber}`,
+      html: emailHtml
+    })
+  });
 
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Resend error:', error);
-      return res.status(500).json({ error: 'Failed to send email' });
-    }
-
-    return res.status(200).json({ success: true });
-
-  } catch (err) {
-    console.error('Send error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+  if (!response.ok) {
+    const error = await response.json();
+    return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500 });
   }
-};
+
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
+}
