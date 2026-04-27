@@ -464,7 +464,7 @@
         throw new Error('Insert failed');
       }
 // Send welcome transmission
-await fetch('/api/send-welcome.cjs{
+await fetch('/api/send-welcome.cjs', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
