@@ -36,7 +36,7 @@ export default async function handler(req) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      from: 'Operative Zero <transmissions@2100project.org>',
+      from: 'Operative Zero <onboarding@resend.dev>',
       to: email,
       subject: `Transmission for Operative ${paddedNumber}`,
       html: emailHtml
