@@ -463,7 +463,16 @@
       if (!insertRes.ok) {
         throw new Error('Insert failed');
       }
-
+// Send welcome transmission
+await fetch('/api/send-welcome', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: email,
+    alias: alias,
+    operativeNumber: nextNumber
+  })
+});
       // Show confirmation
       loadingEl.style.display = 'none';
       const confirmEl = document.getElementById('confirm-state');
